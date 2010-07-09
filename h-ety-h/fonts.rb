@@ -47,7 +47,7 @@ module HH
     load_font(k)
   end
 
-  module Dingbat
+  module Dingbat  
     def dingbattery indent = 0, &blk
       dialog :title => "Hackety Hack Dingbats", :width => 440, :height => 500 do
         style(Shoes::Link,      :underline => 'none', :stroke => "#777")
@@ -55,11 +55,14 @@ module HH
 
         @font = HH::DINGS.keys.sort[0]
         background "#333".."#002"
-
+        
         def letters ary, f, blk
           ary.map do |x|
             case x when Fixnum
               [link(HH.utf8chr(x), :font => f, :size => 80) {
+                blk[%{("#@font:#{x}")}]; close }, " "]
+            when String
+              [link(x, :font => f, :size => 80) {
                 blk[%{("#@font:#{x}")}]; close }, " "]
             else
               letters x, f, blk
